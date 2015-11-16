@@ -6,11 +6,14 @@
  *@param xpos	int - horizontal starting positin
  *@param ypos	int - vertical starting position
  */
-function Item(cl, xpos, ypos){
+function Item(cl, xpos, ypos, w, h){
 	//properties to let each item store its own x/y position
 	this.x = xpos; //Math.floor(Math.random()*720); 
 	this.y = ypos; //Math.floor(Math.random()*500);
 	
+	//its widht and height
+	this.width = w;
+	this.height = h;
 	//property that keeps track of the item's visual
 	
 	this.item_on_page;
@@ -32,18 +35,20 @@ function Item(cl, xpos, ypos){
 	 */ 
 	 this.destroy = function(){
 		 //assign an animating GIF where teh drop is
-		 var newsplash = document.createElement("img");
-		 newsplash.src="img/splash.gif?"+Math.random();
-		 newsplash.style.position="absolute";
-		 newsplash.style.left= this.x + "px";
-		 newsplash.style.top= this.y + "px";
-		 document.body.appendChild(newsplash);
+		 //begin "if it's a raindrop, add a splash and remove it from the array"
+		 	if(this.item_on_page.className == "raindrop"){
+				 var newsplash = document.createElement("img");
+				 newsplash.src="img/splash.gif?"+Math.random();
+				 newsplash.style.position="absolute";
+				 newsplash.style.left= this.x + "px";
+				 newsplash.style.top= this.y + "px";
+				 document.body.appendChild(newsplash);			 
+				 
+				 var index_num = drop_array.indexOf(this);//for mulitiple speed
+				 //to remove item from array:splice(index, howMany)
+				 drop_array.splice(index_num,1);
+			 }//end "if it's a raindrop, add a splash and remove it from the array"
 		 
-		 
-		 
-		 var index_num = drop_array.indexOf(this);//for mulitiple speed
-		 //to remove item from array:splice(index, howMany)
-		 drop_array.splice(0,1)
 		 //remove div on the page as a child of the body
 		 document.body.removeChild(this.item_on_page);
 	 }//end function destroy()
